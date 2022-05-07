@@ -1,11 +1,31 @@
+using BistryApi.Configuration;
+using BistryApi.MenuItems;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+var configuration = builder.Configuration;
+
+builder.Services.Configure<CosmosDbConfiguration>(configuration.GetSection("CosmosDbConfiguration"));
+
+builder.Services.AddDbContext<BistryContext>(options =>
+{
+    var cosmosDbConfiguration = configuration.GetSection("CosmosDbConfiguration");
+
+    var uri = cosmosDbConfiguration["Uri"];
+    var key = cosmosDbConfiguration["Key"];
+    var databaseId = cosmosDbConfiguration["DatabaseId"];
+
+    options.UseCosmos(uri, key, databaseId);
+});
+
+builder.Services.AddTransient<IMenuItemsStore, MenuItemsStore>();
 
 var app = builder.Build();
 

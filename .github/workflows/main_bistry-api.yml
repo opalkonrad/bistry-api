@@ -46,6 +46,13 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: .net-app
+      
+      - name: App Settings Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: '${{env.DOTNET_ROOT}}/myapp/appsettings.json'
+        env:
+          CosmosDbConfiguration.Key: ${{ secrets.AZUREACOSMOSDB_KEY }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
