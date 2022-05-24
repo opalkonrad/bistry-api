@@ -22,7 +22,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpGet]
-    [Route("CallWaiter")]
+    [Route("CallWaiter/{TableId}")]
     public async Task CallWaiter([FromRoute] CallWaiterRequest request)
     {
         await _ordersStore.CallWaiterAsync(request);
