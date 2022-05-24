@@ -1,4 +1,5 @@
 ﻿using BistryApi.Administrator.Requests;
+using BistryApi.Orders;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,5 +29,19 @@ public class AdminController : ControllerBase
     public async Task DeleteMenuItem([FromRoute] DeleteMenuItemRequest request)
     {
         await _adminStore.DeleteMenuItemAsync(request);
+    }
+
+    [HttpGet]
+    [Route("GetOrders")]
+    public async Task<IEnumerable<Order>> GetOrders()
+    {
+        return await _adminStore.GetOrdersAsync();
+    }
+
+    [HttpPost]
+    [Route("IssueOrder")]
+    public async Task IssueOrder([FromBody] IssueOrderRequest request)
+    {
+        await _adminStore.IssueOrderAsync(request);
     }
 }

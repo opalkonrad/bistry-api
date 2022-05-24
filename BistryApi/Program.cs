@@ -2,6 +2,7 @@ using BistryApi.Administrator;
 using BistryApi.Authorization;
 using BistryApi.Configuration;
 using BistryApi.MenuItems;
+using BistryApi.Orders;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -60,6 +61,7 @@ builder.Services.AddDbContext<BistryContext>(options =>
 builder.Services.AddTransient<IAuthorizationHandler, AdminHandler>();
 builder.Services.AddTransient<IAdminStore, AdminStore>();
 builder.Services.AddTransient<IMenuItemsStore, MenuItemsStore>();
+builder.Services.AddTransient<IOrdersStore, OrdersStore>();
 
 var app = builder.Build();
 

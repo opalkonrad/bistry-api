@@ -1,6 +1,8 @@
 ﻿using BistryApi.Administrator.Requests;
 using BistryApi.Configuration;
 using BistryApi.MenuItems;
+using BistryApi.Orders;
+using Microsoft.EntityFrameworkCore;
 
 namespace BistryApi.Administrator;
 
@@ -37,6 +39,17 @@ public class AdminStore : IAdminStore
 
         _bistryContext.MenuItems.Attach(menuItem);
         _bistryContext.MenuItems.Remove(menuItem);
+        await _bistryContext.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<Order>> GetOrdersAsync()
+    {
+        return await _bistryContext.Orders.ToListAsync();
+    }
+
+    public async Task IssueOrderAsync(IssueOrderRequest request)
+    {
+        _bistryContext.Orders.RemoveRange(_bistryContext.Orders.Where(x => x.TableId == request.TableId));
         await _bistryContext.SaveChangesAsync();
     }
 }

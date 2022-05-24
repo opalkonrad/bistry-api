@@ -2,5 +2,5 @@
 
 public interface IMenuItemsStore
 {
-    public Task<IEnumerable<MenuItem>> GetAllAsync();
+    Task<IEnumerable<MenuItem>> GetAllAsync();
 }
